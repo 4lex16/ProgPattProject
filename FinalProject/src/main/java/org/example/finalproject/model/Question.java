@@ -1,8 +1,15 @@
 package org.example.finalproject.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class Question {
     private static int counter = 0;
+    @Getter
+    @Setter
     protected int id;
+    @Getter
+    @Setter
     protected String question;
 
     public Question(String question) {
@@ -38,17 +45,5 @@ public class Question {
      */
     public static Question createQuestion(String question, boolean answer) {
         return new TfQuestion(question, answer);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
     }
 }
