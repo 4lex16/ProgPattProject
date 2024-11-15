@@ -1,5 +1,10 @@
 package org.example.finalproject.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class LongQuestion extends Question {
     private String answer;
 
@@ -9,14 +14,6 @@ public class LongQuestion extends Question {
 
     public LongQuestion(String question, String answer) {
         super(question);
-        this.answer = answer;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
         this.answer = answer;
     }
 }

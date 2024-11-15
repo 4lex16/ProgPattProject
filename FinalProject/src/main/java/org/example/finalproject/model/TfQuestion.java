@@ -1,5 +1,10 @@
 package org.example.finalproject.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class TfQuestion extends Question {
     private boolean answer;
 

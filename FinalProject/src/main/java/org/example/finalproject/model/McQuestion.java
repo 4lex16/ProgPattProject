@@ -1,8 +1,12 @@
 package org.example.finalproject.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class McQuestion extends Question {
     public char answer;
-
 
     public McQuestion(String question) {
         super(question);
@@ -10,14 +14,6 @@ public class McQuestion extends Question {
 
     public McQuestion(String question, char answer) {
         super(question);
-        this.answer = answer;
-    }
-
-    public char getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(char answer) {
         this.answer = answer;
     }
 }
