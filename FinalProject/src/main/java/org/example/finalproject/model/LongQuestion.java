@@ -12,6 +12,11 @@ public class LongQuestion extends Question {
         super(question);
     }
 
+    @Override
+    public void setAnswer(Object answer) {
+        this.answer = (String) answer;
+    }
+
     public LongQuestion(String question, String answer) {
         super(question);
         this.answer = answer;
