@@ -7,12 +7,12 @@ import org.example.finalproject.model.TfQuestion;
 
 import java.security.InvalidParameterException;
 
-public class QuizFactory {
+public class QuestionFactory {
 
-    public static Question createQuestion(String type, String question, Object answer) {
+    public static Question createQuestion(String type, String question, Object answer, String... options) {
         switch (type) {
             case "mc" -> {
-                return new McQuestion(question, (char) answer);
+                return new McQuestion(question, (char) answer, options);
             }
             case "tf" -> {
                 return new TfQuestion(question, (boolean) answer);

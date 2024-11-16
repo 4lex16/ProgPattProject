@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -19,11 +20,12 @@ public class Group {
 
     public Group() {
         groupId = ++counter;
+        students = new ArrayList<>();
     }
 
-    public Group(List<Student> students, Topic topic) {
+    public Group(Topic topic) {
         groupId = ++counter;
-        this.students = students;
+        students = new ArrayList<>();
         this.topic = topic;
     }
 }

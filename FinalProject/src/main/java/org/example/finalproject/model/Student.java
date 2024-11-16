@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -12,13 +13,18 @@ import java.util.List;
 public class Student extends User {
     List<Test> tests;
     List<Quiz> quizzes;
+    List<Group> groups;
 
     public Student() {
+        tests = new ArrayList<>();
+        quizzes = new ArrayList<>();
+        groups = new ArrayList<>();
     }
 
-    public Student(String firstName, String lastName, String email, String password, String type, List<Test> tests, List<Quiz> quizzes) {
+    public Student(String firstName, String lastName, String email, String password, String type) {
         super(firstName, lastName, email, password, type);
-        this.tests = tests;
-        this.quizzes = quizzes;
+        groups = new ArrayList<>();
+        tests = new ArrayList<>();
+        quizzes = new ArrayList<>();
     }
 }

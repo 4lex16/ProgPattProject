@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -16,6 +17,8 @@ public class Teacher extends User {
     protected List<Topic> topics;
 
     public Teacher() {
+        groups = new ArrayList<>();
+        topics = new ArrayList<>();
     }
 
     public Teacher(String firstName, String lastName, String email, String password, String type, List<Group> groups, List<Topic> topics) {
