@@ -15,10 +15,10 @@ public class StudentController {
     }
 
     public void doQuiz(Quiz quiz) {
-        // TODO: implement doQuiz function in Student Controller
+        quiz.taken();
     }
 
     public void doTest(Quiz test) {
-        // TODO: implement doTest function in Student Controller
+        test.taken();
     }
 }
