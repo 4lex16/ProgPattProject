@@ -12,6 +12,11 @@ public class TfQuestion extends Question {
         super(question);
     }
 
+    @Override
+    public void setAnswer(Object answer) {
+        this.answer = (boolean) answer;
+    }
+
     public TfQuestion(String question, boolean answer) {
         super(question);
         this.answer = answer;

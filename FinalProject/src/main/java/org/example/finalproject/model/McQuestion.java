@@ -14,6 +14,11 @@ public class McQuestion extends Question {
         super(question);
     }
 
+    @Override
+    public void setAnswer(Object answer) {
+        this.answer = (char) answer;
+    }
+
     public McQuestion(String question, char answer, String... options) {
         super(question);
         this.answer = answer;
