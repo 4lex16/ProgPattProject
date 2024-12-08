@@ -28,4 +28,8 @@ public class Group {
         students = new ArrayList<>();
         this.topic = topic;
     }
+
+    public Group(int groupId, List<Student> students, Topic topic) {
+        this.groupId = groupId;
+    }
 }
