@@ -8,10 +8,12 @@ public class Grade {
     private Exam exam;
     @Setter
     private double value;
+    private Student student;
 
-    public Grade(Exam exam, double value) {
+    public Grade(Exam exam, double value, Student student) {
         this.exam = exam;
         this.value = value;
+        this.student = student;
     }
 
 
