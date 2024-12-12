@@ -26,4 +26,10 @@ public class Teacher extends User {
         this.groups = groups;
         this.topics = topics;
     }
+
+    public Teacher(int userId, String firstName, String lastName, String email, String password, String type, List<Group> groups, List<Topic> topics) {
+        super(userId, firstName, lastName, email, password, type);
+        this.groups = groups;
+        this.topics = topics;
+    }
 }

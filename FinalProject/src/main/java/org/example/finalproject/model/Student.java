@@ -27,4 +27,10 @@ public class Student extends User {
         tests = new ArrayList<>();
         quizzes = new ArrayList<>();
     }
+    public Student(int userId, String firstName, String lastName, String email, String password, String type, List<Group> groups, List<Quiz> quizzes, List<Test> tests) {
+        super(userId, firstName, lastName, email, password, type);
+        this.groups = groups;
+        this.tests = tests;
+        this.quizzes = quizzes;
+    }
 }
