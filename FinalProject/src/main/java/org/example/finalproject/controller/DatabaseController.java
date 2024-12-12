@@ -160,7 +160,7 @@ public class DatabaseController {
     // Query All
     /**
      * Retrieves all groups
-     * @return
+     * @return List of Group
      */
     public static List<Group> queryAllGroups() {
         READ_LOCK.lock();
@@ -174,11 +174,10 @@ public class DatabaseController {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 int group_id = rs.getInt("group_id");
-                int teacher_id = rs.getInt("teacher_id");
                 int topic_id = rs.getInt("topic_id");
                 List<Student> students= queryStudentGroupByGroupId(group_id);
                 Topic topic = queryTopicByTopicId(topic_id);
-                groups.add(new Group(group_id, students , topic));
+                groups.add(new Group(group_id, students, topic));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -188,7 +187,7 @@ public class DatabaseController {
         return groups;
     }
 
-    // Specific Group
+    // Group Queries
 
     /**
      * Retrieve all students from a group of the specified groupId
@@ -196,7 +195,19 @@ public class DatabaseController {
      * @return List of Students
      */
     public static List<Student> queryStudentGroupByGroupId(int groupId) {
-        return null;
+        READ_LOCK.lock();
+        List<Student> students = new ArrayList<>();
+        String sql =
+                """
+                """;
+        try (Connection conn = connect()) {
+            //TODO: Implement queryStudentGroupByGroupId
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            READ_LOCK.unlock();
+        }
+        return students;
     }
 
     /**
@@ -205,7 +216,19 @@ public class DatabaseController {
      * @return Group output
      */
     public static Group queryGroupByTeacherId(int teacherId) {
-        return null;
+        READ_LOCK.lock();
+        Group group = null;
+        String sql =
+                """
+                """;
+        try (Connection conn = connect()) {
+            //TODO: Implement queryGroupByTeacherId
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            READ_LOCK.unlock();
+        }
+        return group;
     }
 
     /**
@@ -214,10 +237,22 @@ public class DatabaseController {
      * @return List of Groups output
      */
     public static List<Group> queryAllGroupByStudentId(int studentId) {
-        return null;
+        READ_LOCK.lock();
+        List<Group> groups = new ArrayList<>();
+        String sql =
+                """
+                """;
+        try (Connection conn = connect()) {
+            //TODO: Implement queryAllGroupByStudentId
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            READ_LOCK.unlock();
+        }
+        return groups;
     }
 
-    // Specific Topic Queries
+    // Topic Queries
 
     /**
      * Retrieve a Topic based on it's topicId
@@ -225,6 +260,28 @@ public class DatabaseController {
      * @return Topic output
      */
     public static Topic queryTopicByTopicId(int topicId) {
-        return null;
+        READ_LOCK.lock();
+        Topic topic = null;
+        String sql =
+                """
+                """;
+        try (Connection conn = connect()) {
+            //TODO: Implement queryTopicByTopicId
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            READ_LOCK.unlock();
+        }
+        return topic;
     }
+
+    // Student Queries
+
+    // Teacher Queries
+
+    // Question Queries
+
+    // Quiz Queries
+
+    // Test Queries
 }
