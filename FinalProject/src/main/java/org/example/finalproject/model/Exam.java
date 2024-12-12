@@ -12,11 +12,17 @@ public abstract class Exam {
     @Setter
     protected List<Question> questions;
     @Setter
-    protected Grade grade;
+    protected List<Grade> grades;
 
     public Exam() {
         id = ++counter;
         questions = new ArrayList<>();
-        grade = null;
+        grades = new ArrayList();
+    }
+
+    public Exam(int id, List<Question> questions, List<Grade> grades) {
+        this.id = id;
+        this.questions = questions;
+        this.grades = grades;
     }
 }

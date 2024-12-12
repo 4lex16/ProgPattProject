@@ -77,6 +77,16 @@ public class DatabaseController {
                 );
                 """;
 
+        String testSql =
+                """
+                CREATE TABLE IF NOT EXISTS test (
+                    test_id INTEGER PRIMARY KEY,
+                    topic_id INTEGER NOT NULL,
+                    test_name TEXT NOT NULL,
+                    FOREIGN KEY (topic_id) REFERENCES topic(topic_id) ON DELETE CASCADE
+                );
+                """;
+
         try (Connection conn = connect()) {
             Statement stmt = conn.createStatement();
             stmt.execute(groupSql);
@@ -84,6 +94,7 @@ public class DatabaseController {
             stmt.execute(studentSql);
             stmt.execute(teacherSql);
             stmt.execute(topicSql);
+            stmt.execute(testSql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -188,7 +199,6 @@ public class DatabaseController {
     }
 
     // Topic Database Methods
-
     /**
      * Adds a record to the topic table
      * @param topicId int input
@@ -296,6 +306,59 @@ public class DatabaseController {
                 """;
         try (Connection conn = connect()) {
             //TODO: Implement topicRemoveQuestion
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            WRITE_LOCK.unlock();
+        }
+    }
+
+    // Test Database Methods
+    public static void insertTest(int testId, int topicId, String testName) {
+        WRITE_LOCK.lock();
+        String sql =
+                """
+                INSERT INTO test(test_id, topic_id, test_name) VALUES(?, ?, ?);
+                """;
+        try (Connection conn = connect()) {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, testId);
+            pstmt.setInt(2, topicId);
+            pstmt.setString(3, testName);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            WRITE_LOCK.unlock();
+        }
+    }
+
+    public static void testAddQuestion() {
+        WRITE_LOCK.lock();
+        String sql =
+                """
+                DELETE FROM groupStudent
+                WHERE group_id = ? AND student_id = ?;
+                """;
+        try (Connection conn = connect()) {
+            //TODO: Implement testAddQuestion
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            WRITE_LOCK.unlock();
+        }
+    }
+
+    public static void testRemoveQuestion() {
+        WRITE_LOCK.lock();
+        String sql =
+                """
+                DELETE FROM groupStudent
+                WHERE group_id = ? AND student_id = ?;
+                """;
+        try (Connection conn = connect()) {
+            //TODO: Implement testAddQuestion
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -535,6 +598,22 @@ public class DatabaseController {
 
     // Question Queries
     public static List<Question> queryAllQuestionByTopicId(int topicId) {
+        READ_LOCK.lock();
+        List<Question> questions = new ArrayList<>();
+        String sql =
+                """
+                """;
+        try (Connection conn = connect()) {
+            //TODO: Implement getAllQuestionByTopicId
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            READ_LOCK.unlock();
+        }
+        return questions;
+    }
+
+    public static List<Question> queryAllQuestionByTestId(int testId) {
         READ_LOCK.lock();
         List<Question> questions = new ArrayList<>();
         String sql =
