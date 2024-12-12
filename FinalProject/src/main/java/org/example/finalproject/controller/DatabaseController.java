@@ -46,7 +46,18 @@ public class DatabaseController {
                 CREATE TABLE IF NOT EXISTS groupStudent (
                     group_id INTEGER,
                     student_id INTEGER,
+                    PRIMARY KEY (group_id, student_id),
                     FOREIGN KEY (group_id) REFERENCES group(group_id) ON DELETE CASCADE;
+                    );
+                """;
+        String studentSql =
+                """
+                CREATE TABLE IF NOT EXISTS student (
+                    student_id INTEGER PRIMARY KEY,
+                    fname TEXT NOT NULL,
+                    lname TEXT NOT NULL,
+                    email TEXT NOT NULL,
+                    password TEXT NOT NULL
                 );
                 """;
 
@@ -54,6 +65,7 @@ public class DatabaseController {
             Statement stmt = conn.createStatement();
             stmt.execute(groupSql);
             stmt.execute(groupStudentSql);
+            stmt.execute(studentSql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -156,6 +168,7 @@ public class DatabaseController {
             WRITE_LOCK.unlock();
         }
     }
+
 
     // Query All
     /**
