@@ -33,4 +33,12 @@ public class Topic {
         this.questions = questions;
         topicId = ++counter;
     }
+
+    public Topic(int topicId, String title, List<Quiz> quizzes, List<Test> tests, List<Question> questions) {
+        this.topicId = topicId;
+        this.title = title;
+        this.quizzes = quizzes;
+        this.tests = tests;
+        this.questions = questions;
+    }
 }
