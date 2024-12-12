@@ -26,4 +26,12 @@ public abstract class User {
         this.type = type;
         userId = ++counter;
     }
+    public User(int userId, String firstName, String lastName, String email, String password, String type) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.type = type;
+    }
 }

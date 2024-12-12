@@ -1,8 +1,6 @@
 package org.example.finalproject.controller;
 
-import org.example.finalproject.model.Group;
-import org.example.finalproject.model.Student;
-import org.example.finalproject.model.Topic;
+import org.example.finalproject.model.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -53,6 +51,16 @@ public class DatabaseController {
         String studentSql =
                 """
                 CREATE TABLE IF NOT EXISTS student (
+                    teacher_id INTEGER PRIMARY KEY,
+                    fname TEXT NOT NULL,
+                    lname TEXT NOT NULL,
+                    email TEXT NOT NULL,
+                    password TEXT NOT NULL
+                );
+                """;
+        String teacherSql =
+                """
+                CREATE TABLE IF NOT EXISTS student (
                     student_id INTEGER PRIMARY KEY,
                     fname TEXT NOT NULL,
                     lname TEXT NOT NULL,
@@ -66,6 +74,7 @@ public class DatabaseController {
             stmt.execute(groupSql);
             stmt.execute(groupStudentSql);
             stmt.execute(studentSql);
+            stmt.execute(teacherSql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -172,7 +181,7 @@ public class DatabaseController {
 
     // Query All
     /**
-     * Retrieves all groups
+     * Retrieves all Group from group
      * @return List of Group
      */
     public static List<Group> queryAllGroups() {
@@ -200,6 +209,71 @@ public class DatabaseController {
         return groups;
     }
 
+    /**
+     * Retrieves all Student from student
+     * @return List of Student
+     */
+    public static List<Student> queryAllStudent() {
+        READ_LOCK.lock();
+        List<Student> students = new ArrayList<>();
+        String sql =
+                """ 
+                SELECT * FROM student;
+                """;
+        try (Connection conn = connect()) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int student_id = rs.getInt("student_id");
+                String fname = rs.getString("fname");
+                String lname = rs.getString("lname");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                List<Group> groups = queryAllGroupByStudentId(student_id);
+                List<Quiz> quizzes = queryAllQuizzesByStudentId(student_id);
+                List<Test> tests = queryAllTestsByStudentId(student_id);
+                students.add(new Student(student_id, fname, lname, email, password, "student", groups, quizzes, tests));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            READ_LOCK.unlock();
+        }
+        return students;
+    }
+
+    /**
+     * Retrieve all Teacher from student
+     * @return List of Teacher
+     */
+    public static List<Teacher> queryAllTeacher() {
+        READ_LOCK.lock();
+        List<Teacher> teachers = new ArrayList<>();
+        String sql =
+                """ 
+                SELECT * FROM teacher;
+                """;
+        try (Connection conn = connect()) {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int teacher_id = rs.getInt("student_id");
+                String fname = rs.getString("fname");
+                String lname = rs.getString("lname");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                List<Group> groups = queryAllGroupByTeacherId(teacher_id);
+                List<Topic> topics = queryAllTopicByTeacherId(teacher_id);
+                teachers.add(new Teacher(teacher_id, fname, lname, email, password, "student", groups, topics));
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            READ_LOCK.unlock();
+        }
+        return teachers;
+    }
     // Group Queries
 
     /**
@@ -265,6 +339,26 @@ public class DatabaseController {
         return groups;
     }
 
+    /**
+     * Retrieves all Group via the teacher's teacher_id
+     * @param teacherId int input
+     * @return List of Groups output
+     */
+    public static List<Group> queryAllGroupByTeacherId(int teacherId) {
+        READ_LOCK.lock();
+        List<Group> groups = new ArrayList<>();
+        String sql =
+                """
+                """;
+        try (Connection conn = connect()) {
+            //TODO: Implement queryAllGroupByTeacherId
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            READ_LOCK.unlock();
+        }
+        return groups;
+    }
     // Topic Queries
 
     /**
@@ -288,6 +382,27 @@ public class DatabaseController {
         return topic;
     }
 
+    /**
+     * Retrieve all Topic via the teacher's teacher_ids
+     * @param teacherId int input
+     * @return List of Groups output
+     */
+    public static List<Topic> queryAllTopicByTeacherId(int teacherId) {
+        READ_LOCK.lock();
+        List<Topic> topics = new ArrayList<>();
+        String sql =
+                """
+                """;
+        try (Connection conn = connect()) {
+            //TODO: Implement queryAllTopicByTeacherId
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            READ_LOCK.unlock();
+        }
+        return topics;
+    }
+
     // Student Queries
 
     // Teacher Queries
@@ -296,5 +411,46 @@ public class DatabaseController {
 
     // Quiz Queries
 
+    /**
+     * Retrieve all quizzes via the student's student_id
+     * @param studentId int input
+     * @return List of Quiz
+     */
+    public static List<Quiz> queryAllQuizzesByStudentId(int studentId) {
+        READ_LOCK.lock();
+        List<Quiz> quizzes = new ArrayList<>();
+        String sql =
+                """
+                """;
+        try (Connection conn = connect()) {
+            //TODO: Implement queryAllQuizzesByStudentId
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            READ_LOCK.unlock();
+        }
+        return quizzes;
+    }
     // Test Queries
+
+    /**
+     * Retrieve all tests via the student's test_id
+     * @param studentId int input
+     * @return List of Test
+     */
+    public static List<Test> queryAllTestsByStudentId(int studentId) {
+        READ_LOCK.lock();
+        List<Test> tests = new ArrayList<>();
+        String sql =
+                """
+                """;
+        try (Connection conn = connect()) {
+            //TODO: Implement queryAllTestsByStudentId
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            READ_LOCK.unlock();
+        }
+        return tests;
+    }
 }
