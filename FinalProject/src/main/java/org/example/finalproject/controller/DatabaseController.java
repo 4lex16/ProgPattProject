@@ -48,9 +48,9 @@ public class DatabaseController {
                     FOREIGN KEY (group_id) REFERENCES group(group_id) ON DELETE CASCADE;
                     );
                 """;
-        String studentSql =
+        String teacherSql =
                 """
-                CREATE TABLE IF NOT EXISTS student (
+                CREATE TABLE IF NOT EXISTS teacher (
                     teacher_id INTEGER PRIMARY KEY,
                     fname TEXT NOT NULL,
                     lname TEXT NOT NULL,
@@ -58,7 +58,7 @@ public class DatabaseController {
                     password TEXT NOT NULL
                 );
                 """;
-        String teacherSql =
+        String studentSql =
                 """
                 CREATE TABLE IF NOT EXISTS student (
                     student_id INTEGER PRIMARY KEY,
@@ -97,6 +97,76 @@ public class DatabaseController {
                 );
                 """;
 
+        String questionSql =
+                """
+                CREATE TABLE IF NOT EXISTS question (
+                    question_id INTEGER PRIMARY KEY,
+                    question_question TEXT NOT NULL,
+                    question_answer TEXT NOT NULL,
+                    question_type TEXT NOT NULL,
+                    option_id INTEGER,
+                    topic_id INTEGER,
+                    FOREIGN KEY (option_id) REFERENCES questionOption(option_id),
+                    FOREIGN KEY (topic_id) REFERENCES topic(topic_id)
+                );
+                """;
+
+        String questionOptionSql =
+                """
+                CREATE TABLE IF NOT EXISTS questionOption (
+                    option_id INTEGER PRIMARY KEY,
+                    option_a TEXT NOT NULL,
+                    option_b TEXT NOT NULL,
+                    option_c TEXT NOT NULL,
+                    option_d TEXT NOT NULL,
+                );
+                """;
+
+        String quizQuestionSql =
+                """
+                CREATE TABLE IF NOT EXISTS quizQuestion (
+                    question_grade INTEGER,
+                    quiz_id INTEGER,
+                    question_id INTEGER,
+                    student_id INTEGER,
+                    PRIMARY KEY (quiz_id, question_id, student_id),
+                    FOREIGN KEY (quiz_id) REFERENCES quiz(quiz_id),
+                    FOREIGN KEY (question_id) REFERENCES question(question_id),
+                    FOREIGN KEY (student) REFERENCES student(student_id)
+                );
+                """;
+
+        String testQuestionSql =
+                """
+                CREATE TABLE IF NOT EXISTS testQuestion (
+                    question_grade INTEGER,                        
+                    test_id INTEGER,
+                    question_id INTEGER,
+                    student_id INTEGER,
+                    PRIMARY KEY (test_id, question_id, student_id),
+                    FOREIGN KEY (test_id) REFERENCES test(test_id),
+                    FOREIGN KEY (question_id) REFERENCES question(question_id),
+                    FOREIGN KEY (student_id) REFERENCES student(student_id)
+                );
+                """;
+
+        String studentTestSql =
+                """
+                CREATE TABLE IF NOT EXISTS studentTest (
+                    test_id INTEGER,
+                    student_id INTEGER,
+                    times_taken INTEGER,                        
+                    grade INTEGER,
+                    PRIMARY KEY (test_id, student_id),
+                    FOREIGN KEY (test_id) REFERENCES test(test_id),
+                    FOREIGN KEY (student_id) REFERENCES student(student_id)
+                );
+                """;
+
+        String studentQuizSql =
+                """
+                """;
+
         try (Connection conn = connect()) {
             Statement stmt = conn.createStatement();
             stmt.execute(groupSql);
@@ -106,6 +176,12 @@ public class DatabaseController {
             stmt.execute(topicSql);
             stmt.execute(testSql);
             stmt.execute(quizSql);
+            stmt.execute(questionSql);
+            stmt.execute(questionOptionSql);
+            stmt.execute(quizQuestionSql);
+            stmt.execute(testQuestionSql);
+            stmt.execute(studentQuizSql);
+            stmt.execute(studentTestSql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
