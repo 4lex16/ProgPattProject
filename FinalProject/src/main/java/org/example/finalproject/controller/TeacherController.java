@@ -117,6 +117,6 @@ public class TeacherController {
      * @param grade Grade input
      */
     public void gradeTest(Test test, Grade grade) {
-        test.setGrade(grade);
+        test.getGrades().add(grade);
     }
 }

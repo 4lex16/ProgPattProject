@@ -8,12 +8,16 @@ import java.util.List;
 
 @Getter
 public class Test extends Exam {
-    @Setter
-    private boolean isTaken;
     private List<String> answer;
 
     public Test() {
-        isTaken = false;
         answer = new ArrayList<>();
+    }
+
+    public Test(int id, List<Question> questions, List<Grade> grades) {
+        this.id = id;
+        this.questions = questions;
+        this.grades = grades;
+        this.answer = new ArrayList<>();
     }
 }

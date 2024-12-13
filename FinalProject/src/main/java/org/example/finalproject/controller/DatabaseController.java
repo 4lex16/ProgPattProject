@@ -87,6 +87,16 @@ public class DatabaseController {
                 );
                 """;
 
+        String quizSql =
+                """
+                CREATE TABLE IF NOT EXISTS quiz (
+                    quiz_id INTEGER PRIMARY KEY,
+                    topic_id INTEGER,
+                    quiz_name TEXT,
+                    FOREIGN KEY (topic_id) REFERENCES topic(topic_id) ON DELETE CASCADE
+                );
+                """;
+
         try (Connection conn = connect()) {
             Statement stmt = conn.createStatement();
             stmt.execute(groupSql);
@@ -95,6 +105,7 @@ public class DatabaseController {
             stmt.execute(teacherSql);
             stmt.execute(topicSql);
             stmt.execute(testSql);
+            stmt.execute(quizSql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -366,6 +377,59 @@ public class DatabaseController {
         }
     }
 
+    // Quiz Database Methods
+    public static void instertQuiz(int quizId, int topicId, String quizName) {
+        WRITE_LOCK.lock();
+        String sql =
+                """
+                INSERT INTO test(quiz_id, topic_id, quiz_name) VALUES(?, ?, ?);
+                """;
+        try (Connection conn = connect()) {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, quizId);
+            pstmt.setInt(2, topicId);
+            pstmt.setString(3, quizName);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            WRITE_LOCK.unlock();
+        }
+    }
+
+    public static void quizAddQuestion() {
+        WRITE_LOCK.lock();
+        String sql =
+                """
+                DELETE FROM groupStudent
+                WHERE group_id = ? AND student_id = ?;
+                """;
+        try (Connection conn = connect()) {
+            //TODO: Implement quizAddQuestion
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            WRITE_LOCK.unlock();
+        }
+    }
+
+    public static void quizRemoveQuestion() {
+        WRITE_LOCK.lock();
+        String sql =
+                """
+                DELETE FROM groupStudent
+                WHERE group_id = ? AND student_id = ?;
+                """;
+        try (Connection conn = connect()) {
+            //TODO: Implement quizRemoveQuestion
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            WRITE_LOCK.unlock();
+        }
+    }
+
 
     // Query All
     /**
@@ -628,6 +692,22 @@ public class DatabaseController {
         }
         return questions;
     }
+
+    public static List<Question> queryAllQuestionByQuizId(int quizId) {
+        READ_LOCK.lock();
+        List<Question> questions = new ArrayList<>();
+        String sql =
+                """
+                """;
+        try (Connection conn = connect()) {
+            //TODO: Implement getAllQuestionByTopicId
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            READ_LOCK.unlock();
+        }
+        return questions;
+    }
     // Quiz Queries
 
     /**
@@ -653,10 +733,10 @@ public class DatabaseController {
 
     /**
      * Retrieve all quizzes via the student's student_id
-     * @param studentId int input
+     * @param topicId int input
      * @return List of Quiz
      */
-    public static List<Quiz> queryAllQuizByTopicId(int studentId) {
+    public static List<Quiz> queryAllQuizByTopicId(int topicId) {
         READ_LOCK.lock();
         List<Quiz> quizzes = new ArrayList<>();
         String sql =
